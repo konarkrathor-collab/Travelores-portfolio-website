@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travelores.com - Travel Itineraries</title>
+  <style>
+    body { 
+      font-family: 'Poppins', Arial, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      background-image: url('explore.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #333; 
+      text-align: center; 
+      min-height: 100vh;
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+    nav { 
+      background: #0f0f0ffd; 
+      padding: 10px 30px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; 
+    }
+    .nav-left { display: flex; align-items: center; }
+    .nav-brand { display: flex; align-items: center; text-decoration: none; color: inherit; }
+    .nav-left img { width: 70px; height: 70px; margin-right: 10px; border-radius: 50%; }
+    .nav-left h1 { color: white; margin: 0; font-size: 22px; }
+    .nav-right { display: flex; align-items: center; }
+    .nav-right ul { display: flex; list-style: none; margin: 0; padding: 0; }
+    .nav-right li { margin-left: 20px; }
+    .nav-right a { color: white; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+    .nav-right a:hover { color: #a50505; }
+
+    .header-section {
+      background: linear-gradient(135deg, #a50505 0%, #330404 100%);
+      padding: 50px 20px;
+      color: white;
+      margin-bottom: 40px;
+    }
+    .header-section h2 { font-size: 48px; margin: 0 0 15px; }
+    .header-section p { font-size: 20px; margin: 0; opacity: 0.95; }
+
+    .container { 
+      max-width: 1400px; 
+      margin: 0 auto; 
+      padding: 0 20px 60px; 
+    }
+
+    .countries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .country-card {
+      background: rgb(21, 20, 20);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .country-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(165, 5, 5, 0.4);
+    }
+    .country-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .country-card-content {
+      padding: 25px;
+      text-align: left;
+    }
+    .country-card h3 {
+      color: #f0e9d5;
+      margin: 0 0 10px;
+      font-size: 26px;
+    }
+    .country-card p {
+      color: #ddd;
+      margin: 0 0 15px;
+      font-size: 15px;
+    }
+    .country-card .days-info {
+      color: #a50505;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .modal-content {
+      background: rgb(21, 20, 20);
+      margin: 40px auto;
+      padding: 0;
+      max-width: 900px;
+      border-radius: 12px;
+      position: relative;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+    .modal-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .modal-header-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 30px;
+      color: white;
+    }
+    .modal-header h2 {
+      margin: 0;
+      font-size: 42px;
+    }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
+      background: rgba(0,0,0,0.5);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .close:hover { background: #a50505; }
+    
+    .modal-body {
+      padding: 40px;
+      color: white;
+    }
+    .day-section {
+      background: #2d2d2d;
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-left: 4px solid #a50505;
+    }
+    .day-section h3 {
+      color: #f0e9d5;
+      margin: 0 0 20px;
+      font-size: 24px;
+    }
+    .activity {
+      background: #1a1a1a;
+      padding: 15px 20px;
+      margin: 12px 0;
+      border-radius: 6px;
+      border-left: 3px solid #330404;
+    }
+    .activity-time {
+      color: #a50505;
+      font-weight: bold;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .activity-title {
+      color: #f0e9d5;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    .activity-desc {
+      color: #bbb;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    footer { 
+      background: #151515fd; 
+      color: white; 
+      text-align: center; 
+      padding: 20px; 
+      margin-top: 40px; 
+    }
+
+    @media (max-width: 768px) {
+      .header-section h2 { font-size: 36px; }
+      .modal-header h2 { font-size: 32px; }
+      .modal-body { padding: 25px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-left">
+      <a href="WEBSITE.HTML#home" class="nav-brand">
+        <img src="logo.jpg" alt="Travelores Logo">
+        <h1>Travelores.com</h1>
+      </a>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="WEBSITE.HTML#home">Home</a></li>
+        <li><a href="destination.html">Destinations</a></li>
+        <li><a href="WEBSITE.HTML#login">Login</a></li>
+        <li><a href="travelores-itinerary.html">Itinerary</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="header-section">
+    <h2>🗺️ Curated Travel Itineraries</h2>
+    <p>Explore our handcrafted day-by-day guides for amazing destinations</p>
+  </div>
+
+  <div class="container">
+    <div class="countries-grid" id="countriesGrid"></div>
+  </div>
+
+  <div id="itineraryModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <img id="modalImage" src="" alt="">
+        <div class="modal-header-overlay">
+          <h2 id="modalTitle"></h2>
+        </div>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Travelores.com | Made for travelers</p>
+  </footer>
+
+  <script>
+    const countries = [
+      {
+        name: "France 🇫🇷",
+        image: "images.jpeg", // Placeholder image name
+        description: "From the Eiffel Tower to the glamorous French Riviera",
+        days: [
+          { 
+            day: 1,
+            title: "Arrive in Paris & Eiffel Tower",
+            activities: [
+              { time: "10:00 AM", title: "Check into Hotel", desc: "Settle into your hotel in central Paris" },
+              { time: "12:00 PM", title: "Lunch near Eiffel Tower", desc: "Casual French bistro lunch" },
+              { time: "2:00 PM", title: "Eiffel Tower Visit", desc: "Ascend to the top for panoramic views" },
+              { time: "7:00 PM", title: "Seine River Cruise", desc: "Evening boat tour with dinner and city lights" }
+            ]
+          },
+          { 
+            day: 2,
+            title: "Masterpieces & Marais Charm",
+            activities: [
+              { time: "9:00 AM", title: "Louvre Museum", desc: "Focus on key wings: Mona Lisa, Venus de Milo" },
+              { time: "12:30 PM", title: "Lunch & Tuileries Garden", desc: "Picnic or café stop in the beautiful gardens" },
+              { time: "3:00 PM", title: "Notre Dame & Île de la Cité", desc: "View the exterior restoration and explore the island" },
+              { time: "5:00 PM", title: "Explore Le Marais", desc: "Wander through historic streets, Place des Vosges" },
+              { time: "8:00 PM", title: "Dinner in Le Marais", desc: "Enjoy trendy dining in this vibrant area" }
+            ]
+          },
+          { 
+            day: 3,
+            title: "Versailles & Montmartre",
+            activities: [
+              { time: "8:00 AM", title: "Train to Versailles", desc: "Take RER C train from Paris" },
+              { time: "9:30 AM", title: "Palace of Versailles", desc: "Tour the Hall of Mirrors and Royal Apartments" },
+              { time: "1:00 PM", title: "Gardens & Grand Canal", desc: "Explore the vast grounds, perhaps rent a rowboat" },
+              { time: "5:00 PM", title: "Return to Paris & Montmartre", desc: "Head to the hilltop artists' quarter" },
+              { time: "7:00 PM", title: "Sacré-Cœur & Dinner", desc: "Visit the basilica and enjoy dinner with a view" }
+            ]
+          },
+          { 
+            day: 4,
+            title: "High-Speed Train to the Riviera",
+            activities: [
+              { time: "9:00 AM", title: "TGV Train to Nice", desc: "Take the high-speed train from Paris Gare de Lyon (approx. 5.5 hrs)" },
+              { time: "2:30 PM", title: "Check into Nice Hotel", desc: "Settle near the Promenade des Anglais" },
+              { time: "4:00 PM", title: "Promenade des Anglais Stroll", desc: "Walk along the famous seaside boulevard" },
+              { time: "6:00 PM", title: "Vieux Nice (Old Town)", desc: "Explore narrow streets and Baroque architecture" },
+              { time: "8:00 PM", title: "Dinner with local specialties", desc: "Try *Socca* (chickpea pancake)" }
+            ]
+          },
+          { 
+            day: 5,
+            title: "Princely Glamour & Medieval Views",
+            activities: [
+              { time: "9:00 AM", title: "Bus or Train to Èze Village", desc: "Visit the stunning medieval hilltop village" },
+              { time: "11:00 AM", title: "Exotic Garden", desc: "Panoramic views from the Jardin Exotique d'Èze" },
+              { time: "1:00 PM", title: "Train/Bus to Monaco", desc: "Short journey to the sovereign state" },
+              { time: "2:30 PM", title: "Monte Carlo Exploration", desc: "See the Casino Square and Prince's Palace" },
+              { time: "7:00 PM", title: "Return to Nice", desc: "Dinner back in Nice's Old Town" }
+            ]
+          },
+          { 
+            day: 6,
+            title: "Cannes Film Star & Antibes Walls",
+            activities: [
+              { time: "9:00 AM", title: "Train to Cannes", desc: "Quick hop along the coast" },
+              { time: "10:00 AM", title: "Palais des Festivals", desc: "See where the famous film festival is held" },
+              { time: "12:00 PM", title: "Lunch on Rue d'Antibes", desc: "Shopping street lunch" },
+              { time: "2:30 PM", title: "Train to Antibes", desc: "Visit the walled city" },
+              { time: "4:00 PM", title: "Musée Picasso & Ramparts", desc: "Walk the old ramparts overlooking the sea" },
+              { time: "7:00 PM", title: "Return to Nice", desc: "Relaxed final evening meal" }
+            ]
+          },
+          { 
+            day: 7,
+            title: "Final Riviera Moments & Departure",
+            activities: [
+              { time: "9:00 AM", title: "Cours Saleya Flower Market", desc: "Morning visit for fresh flowers and local produce" },
+              { time: "11:00 AM", title: "Last Minute Souvenirs/Relax", desc: "Grab some Niçoise olives or enjoy one last coffee" },
+              { time: "1:00 PM", title: "Transfer to Airport/Train Station", desc: "Depart from Nice Côte d'Azur Airport (NCE) or Nice-Ville station" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "Japan 🇯🇵",
+        image: "Japan-2107x1406.jpg", // Placeholder image name
+        description: "Ancient temples, modern cities, and cherry blossoms",
+        days: [
+          { 
+            day: 1,
+            title: "Tokyo Arrival & Shibuya Buzz",
+            activities: [
+              { time: "2:00 PM", title: "Hotel Check-in Shibuya/Shinjuku", desc: "Modern neighborhood with iconic crossing" },
+              { time: "4:00 PM", title: "Shibuya Crossing & Shopping", desc: "Experience the world's busiest intersection" },
+              { time: "6:00 PM", title: "Dinner at Izakaya", desc: "Traditional Japanese pub-style dining" },
+              { time: "8:00 PM", title: "Shinjuku Night Walk", desc: "Neon lights and Golden Gai exploration" }
+            ]
+          },
+          { 
+            day: 2,
+            title: "Temples & Tech",
+            activities: [
+              { time: "8:00 AM", title: "Tsukiji Outer Market", desc: "Fresh sushi breakfast and market exploration" },
+              { time: "10:00 AM", title: "Senso-ji Temple", desc: "Tokyo's oldest temple in Asakusa" },
+              { time: "1:00 PM", title: "Ueno Park & Museums", desc: "Relax or visit one of the many museums" },
+              { time: "5:00 PM", title: "Akihabara Electric Town", desc: "Anime, gaming, and tech exploration" }
+            ]
+          },
+          { 
+            day: 3,
+            title: "Bullet Train to Kyoto & Torii Gates",
+            activities: [
+              { time: "7:00 AM", title: "Shinkansen to Kyoto", desc: "Bullet train experience (approx. 2.5 hours)" },
+              { time: "10:00 AM", title: "Fushimi Inari Shrine", desc: "Hike through thousands of red torii gates" },
+              { time: "1:00 PM", title: "Nishiki Market", desc: "Kyoto's Kitchen for lunch and local snacks" },
+              { time: "4:00 PM", title: "Gion District Walk", desc: "Search for Geiko (Geisha) in the historic area" }
+            ]
+          },
+          { 
+            day: 4,
+            title: "Bamboo & Golden Pavilions",
+            activities: [
+              { time: "9:00 AM", title: "Arashiyama Bamboo Grove", desc: "Walk through towering bamboo forest" },
+              { time: "11:00 AM", title: "Tenryu-ji Temple Garden", desc: "Explore a major Zen temple next to the grove" },
+              { time: "1:00 PM", title: "Lunch in Arashiyama", desc: "Riverside dining" },
+              { time: "4:00 PM", title: "Kinkaku-ji Golden Pavilion", desc: "Stunning gold-leaf covered temple" }
+            ]
+          },
+          { 
+            day: 5,
+            title: "Nara Day Trip & Tea Ceremony",
+            activities: [
+              { time: "9:00 AM", title: "Train to Nara", desc: "Short trip from Kyoto" },
+              { time: "10:00 AM", title: "Nara Park & Todai-ji Temple", desc: "Feed the friendly wild deer and see the Great Buddha" },
+              { time: "2:00 PM", title: "Return to Kyoto & Relax", desc: "Time to refresh after a busy morning" },
+              { time: "4:00 PM", title: "Traditional Tea Ceremony", desc: "Participate in a formal Japanese tea ritual" },
+              { time: "7:00 PM", title: "Dinner near Kyoto Station", desc: "Try Kyoto-style tofu specialties" }
+            ]
+          },
+          { 
+            day: 6,
+            title: "Osaka Food Adventure",
+            activities: [
+              { time: "9:00 AM", title: "Train to Osaka", desc: "Quick trip for a change of pace" },
+              { time: "11:00 AM", title: "Osaka Castle", desc: "Visit the iconic Japanese landmark" },
+              { time: "1:00 PM", title: "Dotonbori Street Food Lunch", desc: "Sample Takoyaki and Okonomiyaki near the Glico Man sign" },
+              { time: "4:00 PM", title: "Den Den Town", desc: "Osaka's version of Akihabara" },
+              { time: "7:00 PM", title: "Return to Kyoto", desc: "Last night in Kyoto" }
+            ]
+          },
+          { 
+            day: 7,
+            title: "Departure from Kansai or Tokyo",
+            activities: [
+              { time: "Morning", title: "Final Sightseeing/Souvenirs", desc: "Visit a local shrine or pick up last-minute gifts" },
+              { time: "Noon", title: "Travel to Airport", desc: "Take the Haruka Express to Kansai International (KIX) or Shinkansen back to Tokyo (NRT/HND)" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "India 🇮🇳",
+        image: "Top-10-Richest-Cities-in-India-March-2025-2-scaled.jpg.webp", // New placeholder image name for the Golden Triangle focus
+        description: "The historical and cultural marvels of Delhi, Agra, and Jaipur",
+        days: [
+          {
+            day: 1,
+            title: "Delhi Arrival & Old City",
+            activities: [
+              { time: "10:00 AM", title: "Arrive at Indira Gandhi International Airport (DEL)", desc: "Transfer to your hotel and check-in" },
+              { time: "2:00 PM", title: "Red Fort (Exterior)", desc: "View the Mughal masterpiece" },
+              { time: "4:00 PM", title: "Jama Masjid & Chandni Chowk", desc: "Explore the large mosque and bustling old market by rickshaw" },
+              { time: "7:00 PM", title: "Dinner at a local restaurant", desc: "Try authentic North Indian cuisine" }
+            ]
+          },
+          {
+            day: 2,
+            title: "New Delhi & Heritage",
+            activities: [
+              { time: "9:00 AM", title: "Lotus Temple & Humayun's Tomb", desc: "Visit the Baháʼí House of Worship and the precursor to the Taj Mahal" },
+              { time: "1:00 PM", title: "India Gate & Parliament House", desc: "Photo stops at the War Memorial and government buildings" },
+              { time: "3:00 PM", title: "Qutub Minar", desc: "Explore the UNESCO World Heritage Site minaret" },
+              { time: "6:00 PM", title: "Dilli Haat", desc: "Open-air food plaza and craft bazaar" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Train to Agra & Taj Mahal Sunset",
+            activities: [
+              { time: "7:00 AM", title: "Express Train to Agra", desc: "Take the quick train (approx. 2 hours)" },
+              { time: "10:00 AM", title: "Check into Agra Hotel", desc: "Settle down before a busy afternoon" },
+              { time: "12:00 PM", title: "Agra Fort", desc: "Explore the massive red sandstone fort" },
+              { time: "4:00 PM", title: "Taj Mahal Sunset", desc: "Visit the iconic monument as the sun goes down" },
+              { time: "7:00 PM", title: "Dinner with Taj View", desc: "Dine at a rooftop restaurant overlooking the monument" }
+            ]
+          },
+          {
+            day: 4,
+            title: "Agra to Jaipur (Pink City)",
+            activities: [
+              { time: "8:00 AM", title: "Taj Mahal Sunrise", desc: "Optional early morning visit for a breathtaking view" },
+              { time: "11:00 AM", title: "Fatehpur Sikri", desc: "Visit the abandoned Mughal city en route to Jaipur" },
+              { time: "3:00 PM", title: "Drive to Jaipur", desc: "Long drive to the capital of Rajasthan (approx. 4-5 hours)" },
+              { time: "7:00 PM", title: "Check into Jaipur Hotel", desc: "Relax and prepare for Rajasthan's history" }
+            ]
+          },
+          {
+            day: 5,
+            title: "Jaipur Forts & Palaces",
+            activities: [
+              { time: "9:00 AM", title: "Amber Fort", desc: "Ascend by jeep or elephant (optional) to the impressive fort" },
+              { time: "1:00 PM", title: "Jal Mahal (Water Palace)", desc: "Quick photo stop at the picturesque palace in the lake" },
+              { time: "3:00 PM", title: "City Palace", desc: "Visit the royal residence and museum" },
+              { time: "5:00 PM", title: "Hawa Mahal (Palace of Winds)", desc: "View the iconic pink facade from the outside" }
+            ]
+          },
+          {
+            day: 6,
+            title: "Jaipur Culture & Shopping",
+            activities: [
+              { time: "9:00 AM", title: "Nahargarh Fort", desc: "Hilltop fort with panoramic views over the city" },
+              { time: "12:00 PM", title: "Jantar Mantar", desc: "Explore the astronomical observation site" },
+              { time: "2:00 PM", title: "Bazaar Shopping", desc: "Shop for textiles, jewelry, and handicrafts in Johari Bazaar" },
+              { time: "6:00 PM", title: "Chokhi Dhani", desc: "Traditional Rajasthani village experience with dinner and folk dance" }
+            ]
+          },
+          {
+            day: 7,
+            title: "Return to Delhi & Departure",
+            activities: [
+              { time: "9:00 AM", title: "Drive/Train to Delhi", desc: "Return journey to Delhi (approx. 5-6 hours drive or 4-5 hours by train)" },
+              { time: "2:00 PM", title: "Last Minute Lunch/Rest", desc: "Enjoy a final Indian meal before heading to the airport" },
+              { time: "Evening", title: "Departure", desc: "Transfer to Delhi International Airport (DEL)" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "USA 🇺🇸",
+        image: "manhattan-skyline_649448-1559.jpg", // Placeholder image name
+        description: "The city that never sleeps and the nation's capital",
+        days: [
+          {
+            day: 1,
+            title: "NYC: Manhattan Highlights",
+            activities: [
+              { time: "9:00 AM", title: "Central Park Walk", desc: "Bethesda Fountain and Bow Bridge" },
+              { time: "11:00 AM", title: "Metropolitan Museum of Art", desc: "World-class art collection" },
+              { time: "2:00 PM", title: "5th Avenue Shopping", desc: "From Saks to Tiffany's" },
+              { time: "6:00 PM", title: "Times Square", desc: "Neon lights and Broadway atmosphere" },
+              { time: "8:00 PM", title: "Broadway Show", desc: "Catch a world-famous musical" }
+            ]
+          },
+          {
+            day: 2,
+            title: "NYC: Icons & Views",
+            activities: [
+              { time: "8:00 AM", title: "Statue of Liberty & Ellis Island", desc: "Ferry to Liberty Island and Immigration Museum" },
+              { time: "2:00 PM", title: "9/11 Memorial & Museum", desc: "Powerful tribute experience" },
+              { time: "5:00 PM", title: "Brooklyn Bridge Walk", desc: "Sunset walk to Brooklyn" },
+              { time: "7:00 PM", title: "DUMBO Dinner", desc: "Enjoy pizza with the NYC skyline view" }
+            ]
+          },
+          {
+            day: 3,
+            title: "NYC: Modern Life & Culture",
+            activities: [
+              { time: "9:00 AM", title: "The High Line", desc: "Elevated park and art installations" },
+              { time: "11:00 AM", title: "Chelsea Market", desc: "Food hall and unique shops" },
+              { time: "2:00 PM", title: "One World Observatory", desc: "Stunning views from top of One World Trade" },
+              { time: "5:00 PM", title: "Chinatown & Little Italy", desc: "Food tour through historic neighborhoods" }
+            ]
+          },
+          {
+            day: 4,
+            title: "Travel to Washington D.C.",
+            activities: [
+              { time: "9:00 AM", title: "Morning NYC Activity", desc: "Visit MoMA or the Rockefeller Center Observation Deck" },
+              { time: "12:00 PM", title: "Lunch and Travel", desc: "Grab lunch and head to Penn Station" },
+              { time: "2:00 PM", title: "Amtrak Train to D.C.", desc: "Enjoy the scenic train ride (approx. 3.5 hours)" },
+              { time: "6:00 PM", title: "Check into D.C. Hotel", desc: "Settle in near the National Mall" },
+              { time: "8:00 PM", title: "Dinner in Georgetown", desc: "Dinner in the historic neighborhood" }
+            ]
+          },
+          {
+            day: 5,
+            title: "D.C.: Monuments & Government",
+            activities: [
+              { time: "9:00 AM", title: "Capitol Hill & Library of Congress", desc: "Guided tour of the Capitol Building and the beautiful library" },
+              { time: "1:00 PM", title: "National Mall Walk", desc: "Lunch and walk toward the Lincoln Memorial" },
+              { time: "3:00 PM", title: "Lincoln, WWII, and Vietnam Memorials", desc: "Visit the iconic war memorials" },
+              { time: "7:00 PM", title: "Illuminated Monuments Tour", desc: "Evening tour to see the monuments lit up" }
+            ]
+          },
+          {
+            day: 6,
+            title: "D.C.: Smithsonian Museums",
+            activities: [
+              { time: "9:00 AM", title: "National Air and Space Museum", desc: "Explore historic aircraft and space artifacts" },
+              { time: "12:00 PM", title: "Lunch near the Mall", desc: "Quick bite at a museum cafe or food truck" },
+              { time: "2:00 PM", title: "National Museum of Natural History", desc: "See the dinosaur bones and Hope Diamond" },
+              { time: "5:00 PM", title: "White House Photo Stop", desc: "Walk past the north or south lawn" },
+              { time: "7:00 PM", title: "Dinner near your hotel", desc: "Enjoy American cuisine" }
+            ]
+          },
+          {
+            day: 7,
+            title: "Departure",
+            activities: [
+              { time: "9:00 AM", title: "International Spy Museum or Newseum", desc: "Visit a unique D.C. specialty museum" },
+              { time: "12:00 PM", title: "Last Lunch in D.C.", desc: "Final meal in the capital" },
+              { time: "Afternoon", title: "Transfer to Airport", desc: "Depart from Dulles (IAD) or Reagan (DCA) International Airport" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "Italy 🇮🇹",
+        image: "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=800",
+        description: "Rome's ancient wonders, Florence's art, and Venetian canals",
+        days: [
+          {
+            day: 1,
+            title: "Rome: Ancient Wonders",
+            activities: [
+              { time: "8:00 AM", title: "Colosseum Tour", desc: "Early entry to avoid crowds" },
+              { time: "11:00 AM", title: "Roman Forum & Palatine Hill", desc: "Walk through ancient Roman civilization" },
+              { time: "2:00 PM", title: "Lunch in Trastevere", desc: "Authentic Roman trattoria" },
+              { time: "4:00 PM", title: "Pantheon", desc: "Marvel at ancient engineering" },
+              { time: "6:00 PM", title: "Trevi Fountain", desc: "Toss a coin and make a wish" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Rome: Vatican City",
+            activities: [
+              { time: "8:00 AM", title: "Vatican Museums", desc: "Book skip-the-line tickets in advance" },
+              { time: "10:00 AM", title: "Sistine Chapel", desc: "Michelangelo's masterpiece ceiling" },
+              { time: "12:00 PM", title: "St. Peter's Basilica", desc: "Climb the dome for panoramic views" },
+              { time: "3:00 PM", title: "Castel Sant'Angelo", desc: "Fortress with Tiber River views" },
+              { time: "7:00 PM", title: "Piazza Navona Dinner", desc: "Beautiful baroque square" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Travel to Florence & Ponte Vecchio",
+            activities: [
+              { time: "9:00 AM", title: "Borghese Gallery", desc: "Bernini sculptures and art (reserve ahead)" },
+              { time: "12:00 PM", title: "High-Speed Train to Florence", desc: "Travel on the Frecciarossa train (approx. 1.5 hours)" },
+              { time: "2:00 PM", title: "Check into Florence Hotel", desc: "Settle in the Renaissance city" },
+              { time: "4:00 PM", title: "Ponte Vecchio & Oltrarno", desc: "Walk the famous bridge and explore the artisan district" },
+              { time: "7:00 PM", title: "Dinner near Duomo", desc: "Enjoy Florentine steak (*Bistecca alla Fiorentina*)" }
+            ]
+          },
+          {
+            day: 4,
+            title: "Florence: Renaissance Masterpieces",
+            activities: [
+              { time: "9:00 AM", title: "Uffizi Gallery", desc: "See Botticelli's *Birth of Venus* and other masters" },
+              { time: "1:00 PM", title: "Accademia Gallery", desc: "See Michelangelo's David" },
+              { time: "3:00 PM", title: "Duomo Complex", desc: "Climb the Campanile (Bell Tower) or the Duomo Dome (must reserve)" },
+              { time: "7:00 PM", title: "Trattoria Dinner", desc: "Authentic dinner in the city center" }
+            ]
+          },
+          {
+            day: 5,
+            title: "Tuscan Day Trip (Siena & San Gimignano)",
+            activities: [
+              { time: "8:00 AM", title: "Guided Tour to Tuscany", desc: "Visit Siena and the medieval towers of San Gimignano" },
+              { time: "1:00 PM", title: "Tuscan Lunch", desc: "Enjoy a traditional meal in the countryside" },
+              { time: "4:00 PM", title: "Wine Tasting", desc: "Sample Chianti Classico wine" },
+              { time: "7:00 PM", title: "Return to Florence", desc: "Evening free for gelato and a relaxed walk" }
+            ]
+          },
+          {
+            day: 6,
+            title: "Travel to Venice & Canals",
+            activities: [
+              { time: "9:00 AM", title: "Train to Venice (Santa Lucia)", desc: "High-speed train journey (approx. 2 hours)" },
+              { time: "11:30 AM", title: "Water Taxi/Vaporetto to Hotel", desc: "Experience the unique arrival in Venice" },
+              { time: "2:00 PM", title: "St. Mark's Square", desc: "Visit St. Mark's Basilica and Doge's Palace" },
+              { time: "5:00 PM", title: "Rialto Bridge", desc: "Cross the famous bridge for photos" },
+              { time: "7:00 PM", title: "Gondola Ride", desc: "Classic Venetian experience followed by dinner" }
+            ]
+          },
+          {
+            day: 7,
+            title: "Venice Islands & Departure",
+            activities: [
+              { time: "9:00 AM", title: "Island Hop to Murano & Burano", desc: "Vaporetto ride to see glass blowing (Murano) and colorful houses (Burano)" },
+              { time: "1:00 PM", title: "Lunch in Venice", desc: "Try fresh seafood near the Grand Canal" },
+              { time: "3:00 PM", title: "Souvenir Shopping/Relax", desc: "Final walk through the labyrinthine streets" },
+              { time: "Evening", title: "Departure", desc: "Transfer to Venice Marco Polo Airport (VCE)" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "Thailand 🇹🇭",
+        image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800",
+        description: "Temples, street food, and tropical islands",
+        days: [
+          {
+            day: 1,
+            title: "Bangkok: Temples & River",
+            activities: [
+              { time: "8:00 AM", title: "Grand Palace & Wat Phra Kaew", desc: "Magnificent complex with Emerald Buddha" },
+              { time: "11:00 AM", title: "Wat Pho Reclining Buddha", desc: "Massive golden Buddha statue" },
+              { time: "1:00 PM", title: "Lunch near the river", desc: "Traditional Thai lunch" },
+              { time: "3:00 PM", title: "Wat Arun", desc: "Temple of Dawn across the river (take the ferry)" },
+              { time: "6:00 PM", title: "Khao San Road", desc: "Bustling backpacker street with food stalls" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Bangkok: Markets & Culture",
+            activities: [
+              { time: "7:00 AM", title: "Damnoen Saduak Floating Market", desc: "Traditional boat market (early trip from Bangkok)" },
+              { time: "12:00 PM", title: "Chatuchak Weekend Market (if applicable)", desc: "Massive market with 15,000 stalls (or Siam shopping)" },
+              { time: "5:00 PM", title: "Rooftop Bar", desc: "Sunset drinks with Bangkok skyline views" },
+              { time: "7:00 PM", title: "Street Food Tour", desc: "Sample Pad Thai, mango sticky rice, and more" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Travel to Phuket & Beach Relaxation",
+            activities: [
+              { time: "Morning", title: "Flight to Phuket", desc: "1.5 hour flight to island paradise" },
+              { time: "12:00 PM", title: "Check in at Patong Beach or quieter Karon", desc: "Lunch and settle in" },
+              { time: "3:00 PM", title: "Beach Relaxation or Water Sports", desc: "Jet ski, parasailing, or simply sunbathe" },
+              { time: "6:00 PM", title: "Patong Bangla Road", desc: "Explore the nightlife (optional)" }
+            ]
+          },
+          {
+            day: 4,
+            title: "Phuket: Phi Phi Islands Day Trip",
+            activities: [
+              { time: "8:00 AM", title: "Speedboat Tour to Phi Phi Islands", desc: "Visit Maya Bay (from *The Beach*), Phi Phi Don, and Viking Cave" },
+              { time: "1:00 PM", title: "Snorkeling & Lunch", desc: "Enjoy island lunch and swimming in clear waters" },
+              { time: "5:00 PM", title: "Return to Phuket", desc: "Evening free for an early dinner" }
+            ]
+          },
+          {
+            day: 5,
+            title: "Phuket to Krabi (Railay Beach)",
+            activities: [
+              { time: "9:00 AM", title: "Ferry or Boat to Krabi", desc: "Travel to Railay Beach (via Ao Nang)" },
+              { time: "1:00 PM", title: "Check into Railay Hotel", desc: "Enjoy the stunning limestone cliffs" },
+              { time: "3:00 PM", title: "Railay West & Viewpoint", desc: "Hike to the viewpoint for incredible views (muddy trail)" },
+              { time: "7:00 PM", title: "Dinner on Railay East", desc: "Relaxed dinner by the beach" }
+            ]
+          },
+          {
+            day: 6,
+            title: "Krabi: 4 Islands Tour",
+            activities: [
+              { time: "8:00 AM", title: "Long-Tail Boat 4 Islands Tour", desc: "Visit Poda Island, Chicken Island, Tup Island, and Phra Nang Cave Beach" },
+              { time: "1:00 PM", title: "Snorkeling and Beach Time", desc: "Enjoy the soft sand and turquoise water" },
+              { time: "4:00 PM", title: "Back to Railay", desc: "Relax or try rock climbing (lessons available)" },
+              { time: "7:00 PM", title: "Farewell Dinner", desc: "Seafood BBQ on the beach" }
+            ]
+          },
+          {
+            day: 7,
+            title: "Departure",
+            activities: [
+              { time: "9:00 AM", title: "Last Beach Walk", desc: "Enjoy the peaceful morning at Railay" },
+              { time: "10:00 AM", title: "Boat to Krabi Airport (KBV)", desc: "Transfer via long-tail boat and taxi/minibus" },
+              { time: "Afternoon", title: "Departure", desc: "Fly out of Krabi International Airport" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "Greece 🇬🇷",
+        image: "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=800",
+        description: "Athens history, Santorini sunsets, and Mykonos nightlife",
+        days: [
+          {
+            day: 1,
+            title: "Athens: Acropolis & Plaka",
+            activities: [
+              { time: "8:00 AM", title: "Acropolis & Parthenon", desc: "Ancient citadel overlooking Athens (visit early)" },
+              { time: "11:00 AM", title: "Acropolis Museum", desc: "Stunning modern museum with ancient artifacts" },
+              { time: "2:00 PM", title: "Lunch in Plaka District", desc: "Lunch in historic neighborhood and souvenir shopping" },
+              { time: "5:00 PM", title: "Monastiraki Square", desc: "Flea market and street performers" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Athens: Ancient Agora & Temple",
+            activities: [
+              { time: "9:00 AM", title: "Ancient Agora & Temple of Hephaestus", desc: "Walk through the heart of ancient Athenian life" },
+              { time: "12:00 PM", title: "Panathenaic Stadium", desc: "See where the first modern Olympics were held" },
+              { time: "3:00 PM", title: "Temple of Olympian Zeus & Hadrian's Arch", desc: "Visit the ruins of the massive temple" },
+              { time: "6:00 PM", title: "Mount Lycabettus Sunset", desc: "Take the funicular for a panoramic sunset view of Athens" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Travel to Santorini & Oia Sunset",
+            activities: [
+              { time: "Morning", title: "Ferry or Flight to Santorini", desc: "Scenic boat ride (5-8 hrs) or quick flight (45 min)" },
+              { time: "12:00 PM", title: "Check into Hotel (Fira/Firostefani)", desc: "Settle in and get oriented to the caldera view" },
+              { time: "4:00 PM", title: "Travel to Oia", desc: "Take a bus or taxi to the northern tip of the island" },
+              { time: "7:00 PM", title: "Oia Sunset", desc: "World-famous sunset viewing spot (arrive early)" }
+            ]
+          },
+          {
+            day: 4,
+            title: "Santorini: Beaches & Akrotiri",
+            activities: [
+              { time: "9:00 AM", title: "Red Beach", desc: "Unique red volcanic sand beach" },
+              { time: "11:00 AM", title: "Black Sand Beach (Perissa/Perivolos)", desc: "Lunch and sunbathe on the volcanic sand" },
+              { time: "3:00 PM", title: "Akrotiri Archaeological Site", desc: "Ancient Minoan city preserved in ash" },
+              { time: "6:00 PM", title: "Winery Tour", desc: "Taste distinctive Santorini wines with caldera views" }
+            ]
+          },
+          {
+            day: 5,
+            title: "Travel to Mykonos & Little Venice",
+            activities: [
+              { time: "Morning", title: "Ferry to Mykonos", desc: "High-speed ferry (approx. 2-3 hours)" },
+              { time: "12:00 PM", title: "Check into Hotel", desc: "Settle in on the cosmopolitan island" },
+              { time: "3:00 PM", title: "Mykonos Town Exploration", desc: "Walk through the charming whitewashed lanes" },
+              { time: "6:00 PM", title: "Little Venice & Windmills Sunset", desc: "Watch the sunset from this iconic waterfront area" },
+              { time: "9:00 PM", title: "Dinner & Nightlife", desc: "Enjoy a lively dinner" }
+            ]
+          },
+          {
+            day: 6,
+            title: "Mykonos: Beaches & Delos Day Trip",
+            activities: [
+              { time: "9:00 AM", title: "Delos Island Day Trip", desc: "Short ferry to the UNESCO World Heritage site" },
+              { time: "1:00 PM", title: "Beach Hopping", desc: "Visit Paradise or Super Paradise beach for atmosphere" },
+              { time: "4:00 PM", title: "Quiet Beach (e.g., Fokos)", desc: "Relax on a less crowded beach" },
+              { time: "7:00 PM", title: "Farewell Dinner", desc: "Fine dining in Mykonos Town" }
+            ]
+          },
+          {
+            day: 7,
+            title: "Departure",
+            activities: [
+              { time: "Morning", title: "Souvenir Shopping/Relax", desc: "Final morning in the town" },
+              { time: "Noon", title: "Lunch at the Old Port", desc: "Enjoy a final Greek meal" },
+              { time: "Afternoon", title: "Transfer to Airport (JMK)", desc: "Depart from Mykonos International Airport" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "Australia 🇦🇺",
+        image: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=800",
+        description: "Sydney Opera House, stunning harbors, and the Great Barrier Reef",
+        days: [
+          {
+            day: 1,
+            title: "Sydney: Icons & Harbor",
+            activities: [
+              { time: "9:00 AM", title: "Sydney Opera House Tour", desc: "Guided tour of the architectural masterpiece" },
+              { time: "11:00 AM", title: "Harbor Bridge Walk", desc: "BridgeClimb (optional) or walk the pedestrian path" },
+              { time: "2:00 PM", title: "The Rocks Historic District", desc: "Oldest area with markets and pubs" },
+              { time: "5:00 PM", title: "Circular Quay", desc: "Waterfront dining and sunset views" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Sydney: Beaches & Wildlife",
+            activities: [
+              { time: "8:00 AM", title: "Bondi Beach", desc: "Famous beach and surfing spot" },
+              { time: "10:00 AM", title: "Bondi to Coogee Coastal Walk", desc: "Scenic 6km clifftop trail" },
+              { time: "2:00 PM", title: "Taronga Zoo", desc: "Ferry to zoo with harbor views and Australian animals" },
+              { time: "6:00 PM", title: "Darling Harbour", desc: "Evening entertainment and dinner district" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Sydney: Blue Mountains Day Trip",
+            activities: [
+              { time: "7:00 AM", title: "Drive/Train to Blue Mountains", desc: "90 minutes west of Sydney" },
+              { time: "9:00 AM", title: "Three Sisters Lookout (Echo Point)", desc: "Iconic rock formation views" },
+              { time: "11:00 AM", title: "Scenic World", desc: "Cable car and railway through valleys" },
+              { time: "2:00 PM", title: "Leura Village", desc: "Charming mountain town lunch" },
+              { time: "5:00 PM", title: "Return to Sydney", desc: "Evening at leisure" }
+            ]
+          },
+          {
+            day: 4,
+            title: "Travel to Cairns & Esplanade",
+            activities: [
+              { time: "Morning", title: "Flight to Cairns (CNS)", desc: "Fly from Sydney to the gateway to the Great Barrier Reef (approx. 3 hours)" },
+              { time: "1:00 PM", title: "Check into Cairns Hotel", desc: "Settle in and acclimatize to the tropical weather" },
+              { time: "3:00 PM", title: "Cairns Esplanade Lagoon", desc: "Relax by the artificial lagoon on the waterfront" },
+              { time: "6:00 PM", title: "Cairns Night Markets", desc: "Explore the market for food and souvenirs" }
+            ]
+          },
+          {
+            day: 5,
+            title: "Great Barrier Reef Experience",
+            activities: [
+              { time: "8:00 AM", title: "Reef Tour Departure", desc: "Take a catamaran to the Outer Reef (full day tour)" },
+              { time: "10:00 AM", title: "Snorkeling & Scuba Diving", desc: "Explore the coral and marine life" },
+              { time: "1:00 PM", title: "Lunch on the boat", desc: "Enjoy a buffet lunch on the water" },
+              { time: "4:00 PM", title: "Return to Cairns", desc: "Evening relaxing after a big day on the water" }
+            ]
+          },
+          {
+            day: 6,
+            title: "Rainforest Day Trip (Kuranda)",
+            activities: [
+              { time: "9:00 AM", title: "Skyrail Rainforest Cableway", desc: "Scenic ride over the rainforest canopy to Kuranda Village" },
+              { time: "12:00 PM", title: "Kuranda Village Exploration", desc: "Walk through the markets and see the Butterfly Sanctuary" },
+              { time: "3:00 PM", title: "Kuranda Scenic Railway", desc: "Historic train journey back down to Cairns" },
+              { time: "7:00 PM", title: "Farewell Dinner", desc: "Enjoy a final seafood dinner in Cairns" }
+            ]
+          },
+          {
+            day: 7,
+            title: "Departure",
+            activities: [
+              { time: "9:00 AM", title: "Cairns Botanic Gardens", desc: "Relaxed morning exploring tropical plants" },
+              { time: "12:00 PM", title: "Lunch and Airport Transfer", desc: "Final meal and head to the airport" },
+              { time: "Afternoon", title: "Departure", desc: "Fly out of Cairns International Airport (CNS)" }
+            ]
+          }
+        ]
+      }
+    ];
+
+    function renderCountries() {
+      const grid = document.getElementById('countriesGrid');
+      grid.innerHTML = ''; // Clear existing content
+      countries.forEach((country, index) => {
+        const card = document.createElement('div');
+        card.className = 'country-card';
+        card.onclick = () => openModal(index);
+        
+        // Fallback image for cards
+        const fallbackImage = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800'; 
+        
+        card.innerHTML = `
+          <img src="${country.image}" alt="${country.name}" onerror="this.src='${fallbackImage}'">
+          <div class="country-card-content">
+            <h3>${country.name}</h3>
+            <p>${country.description}</p>
+            <div class="days-info">${country.days.length} Days Itinerary</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openModal(index) {
+      const country = countries[index];
+      const modal = document.getElementById('itineraryModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+      
+      const fallbackImage = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800';
+
+      modalImage.src = country.image;
+      modalImage.onerror = () => { modalImage.src = fallbackImage; };
+      modalTitle.textContent = country.name;
+
+      let bodyHTML = '';
+      country.days.forEach(day => {
+        bodyHTML += `
+          <div class="day-section">
+            <h3>Day ${day.day}: ${day.title}</h3>
+        `;
+        day.activities.forEach(activity => {
+          bodyHTML += `
+            <div class="activity">
+              <span class="activity-time">${activity.time}</span>
+              <div class="activity-title">${activity.title}</div>
+              <div class="activity-desc">${activity.desc}</div>
+            </div>
+          `;
+        });
+        bodyHTML += '</div>';
+      });
+
+      modalBody.innerHTML = bodyHTML;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('itineraryModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('itineraryModal');
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
+
+    // Initialize the page by rendering the country cards
+    renderCountries();
+  </script>
+
+</body>
+</html>

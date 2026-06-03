@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travelores.com - Explore the World</title>
+  <style>
+    body { font-family: 'Poppins', Arial, sans-serif; margin: 0; padding: 0; background: #fdfdfd; color: #333; text-align: center; }
+    nav { background: #0f0f0ffd; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+    .nav-left { display: flex; align-items: center; }
+    .nav-brand { display: flex; align-items: center; text-decoration: none; color: inherit; }
+    .nav-left img { width: 70px; height: 70px; margin-right: 10px; border-radius: 50%; }
+    .nav-left h1 { color: white; margin: 0; font-size: 22px; }
+    .nav-right ul { display: flex; list-style: none; margin: 0; padding: 0; }
+    .nav-right li { margin-left: 20px; }
+    .nav-right a { color: white; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+    .nav-right a:hover { color: #a50505; }
+    .hero { background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=80') no-repeat center center/cover; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.7); }
+    .hero h2 { font-size: 50px; margin: 0 0 20px; }
+    .hero p { font-size: 22px; max-width: 700px; margin-bottom: 30px; }
+    .hero .butt { background: #330404; padding: 14px 28px; font-size: 18px; color: white; text-decoration: none; border-radius: 8px; transition: 0.3s; }
+    .hero .butt:hover { background: #a50505; }
+    .highlights { display: flex; justify-content: center; gap: 30px; margin: 50px auto; flex-wrap: wrap; max-width: 1000px; }
+    .highlight-box { background: rgb(21, 20, 20); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 280px; transition: transform 0.3s ease; }
+    .highlight-box:hover { transform: translateY(-10px); }
+    .highlight-box h3 { margin: 15px 0 10px; color: #ffffff; }
+    .highlight-box p { font-size: 15px; color: #ece2e2; }
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fdfdfd;
+      color: #333;
+      text-align: center;
+    }
+
+    /* Navbar */
+    nav {
+      background: #0f0f0ffd; 
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+    .nav-left img {
+      width: 70px;
+      height: 70px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+    .nav-left h1 {
+      color: white;
+      margin: 0;
+      font-size: 22px;
+    }
+    .nav-right ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-right li {
+      margin-left: 20px;
+    }
+    .nav-right a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+    .nav-right a:hover {
+      color: #a50505;
+    }
+
+    /* Sections */
+    section {
+      display: none;
+      padding: 40px 20px;
+    }
+    section.active {
+      display: block;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=80') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+    .hero h2 {
+      font-size: 50px;
+      margin: 0 0 20px;
+    }
+    .hero p {
+      font-size: 22px;
+      max-width: 700px;
+      margin-bottom: 30px;
+    }
+    .hero .butt {
+      background: #330404;
+      padding: 14px 28px;
+      font-size: 18px;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .hero .butt:hover {
+      background: #a50505;
+    }
+
+    /* Highlights */
+    .highlights {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 50px auto;
+      flex-wrap: wrap;
+      max-width: 1000px;
+    }
+    .highlight-box {
+      background: rgb(21, 20, 20);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 280px;
+      transition: transform 0.3s ease;
+    }
+    .highlight-box:hover {
+      transform: translateY(-10px);
+    }
+    .highlight-box h3 {
+      margin: 15px 0 10px;
+      color: #ffffff;
+    }
+    .highlight-box p {
+      font-size: 15px;
+      color: #ece2e2;
+    }
+
+    /* About Us */
+    .about-us {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .about-us h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #c0392b;
+    }
+    .about-us p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #444;
+    }
+    
+    /* Login */
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      width: 320px;
+      margin: auto;
+      text-align: center;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: #c0392b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-box button:hover {
+      background: #a50505;
+    }
+
+    /* Itinerary */
+    .header-section {
+      background: linear-gradient(135deg, #a50505 0%, #330404 100%);
+      padding: 50px 20px;
+      color: white;
+      margin-bottom: 40px;
+    }
+    .header-section h2 { font-size: 42px; margin: 0 0 15px; }
+    .header-section p { font-size: 18px; margin: 0; opacity: 0.95; }
+
+    .container { 
+      max-width: 1400px; 
+      margin: 0 auto; 
+      padding: 0 20px 60px; 
+    }
+
+    .countries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .country-card {
+      background: rgb(21, 20, 20);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .country-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(165, 5, 5, 0.4);
+    }
+    .country-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .country-card-content {
+      padding: 25px;
+      text-align: left;
+    }
+    .country-card h3 {
+      color: #f0e9d5;
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+    .country-card p {
+      color: #ddd;
+      margin: 0 0 15px;
+      font-size: 14px;
+    }
+    .country-card .days-info {
+      color: #a50505;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .modal-content {
+      background: rgb(21, 20, 20);
+      margin: 40px auto;
+      padding: 0;
+      max-width: 900px;
+      border-radius: 12px;
+      position: relative;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+    .modal-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .modal-header-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 30px;
+      color: white;
+    }
+    .modal-header h2 {
+      margin: 0;
+      font-size: 32px;
+    }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
+      background: rgba(0,0,0,0.5);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .close:hover { background: #a50505; }
+    .modal-body { padding: 30px; color: white; }
+    .day-section { background: #2d2d2d; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #a50505; }
+    .day-section h3 { color: #f0e9d5; margin: 0 0 16px; font-size: 20px; }
+    .activity { background: #1a1a1a; padding: 12px 16px; margin: 10px 0; border-radius: 6px; border-left: 3px solid #330404; }
+    .activity-time { color: #a50505; font-weight: bold; font-size: 13px; display: block; margin-bottom: 4px; }
+    .activity-title { color: #f0e9d5; font-weight: bold; font-size: 16px; margin-bottom: 4px; }
+    .activity-desc { color: #bbb; font-size: 13px; line-height: 1.5; }
+    footer { background: #151515fd; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-left">
+      <a href="WEBSITE.HTML#home" class="nav-brand">
+        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=200&h=200&fit=crop&q=80" alt="Travelores Logo">
+        <h1>Travelores.com</h1>
+      </a>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="WEBSITE.HTML#home">Home</a></li>
+        <li><a href="destination.html">Destinations</a></li>
+        <li><a href="WEBSITE.HTML#login">Login</a></li>
+        <li><a href="travelores-itinerary.html">Itinerary</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Home -->
+  <section id="home" class="active">
+    <div class="hero">
+      <h2>Explore The World With Us</h2>
+      <p>Your ultimate guide to breathtaking destinations, travel tips, and unforgettable experiences.</p>
+      <a href="destination.html" class="butt">Start Exploring</a>
+    </div>
+    <section class="highlights">
+      <div class="highlight-box">
+        <h3>Destinations</h3>
+        <p>Discover detailed guides to top cities and hidden gems across the world.</p>
+      </div>
+      <div class="highlight-box">
+        <h3>Travel Tips</h3>
+        <p>Save money, travel smarter, and experience more with our expert advice.</p>
+      </div>
+      <div class="highlight-box">
+        <h3>🍴 Culture & Food</h3>
+        <p>Experience authentic cuisines and learn about diverse traditions.</p>
+      </div>
+    </section>
+  </section>
+
+  <!-- Destinations (placeholder section that links to full page) -->
+  <section id="destinations">
+    <h2>Top Destinations</h2>
+    <p>View our curated list of destinations.</p>
+    <p><a href="destination.html" class="butt" style="display:inline-block;">Open Destinations Page</a></p>
+  </section>
+
+  <!-- Login -->
+  <section id="login">
+    <div class="login-box">
+      <h2 id="loginTitle">Login</h2>
+      <p id="loginToggle" style="margin-bottom: 15px; font-size: 14px;">
+        Don't have an account? <a href="#" onclick="toggleRegister(); return false;" style="color: #a50505; cursor: pointer;">Sign Up</a>
+      </p>
+      
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event);">
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+
+      <!-- Registration Form -->
+      <form id="registerForm" style="display: none;" onsubmit="handleRegister(event);">
+        <input type="text" id="regName" placeholder="Full Name" required>
+        <input type="email" id="regEmail" placeholder="Email" required>
+        <input type="tel" id="regPhone" placeholder="Phone Number" required>
+      
+        <input type="password" id="regPassword" placeholder="Password" required>
+        <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
+        <button type="submit">Register</button>
+      </form>
+
+      <div id="loginMessage" style="margin-top: 15px; font-size: 14px; color: #a50505;"></div>
+    </div>
+  </section>
+
+  <!-- Itinerary (Integrated) -->
+  <section id="itinerary">
+    <div class="header-section">
+      <h2>🗺️ Curated Travel Itineraries</h2>
+      <p>Explore our handcrafted day-by-day guides for amazing destinations</p>
+    </div>
+    <div class="container">
+      <div class="countries-grid" id="countriesGrid"></div>
+    </div>
+
+    <div id="itineraryModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <img id="modalImage" src="" alt="">
+          <div class="modal-header-overlay">
+            <h2 id="modalTitle"></h2>
+          </div>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="about-us">
+      <h2>About Us</h2>
+      <p>Welcome to <strong>Travelores</strong>, your go-to travel companion for tips and guides.</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="about-us">
+      <h2>Contact</h2>
+      <p>Need help? Visit the full <a href="contact.html">Contact page</a>.</p>
+    </div>
+  </section>
+
+  
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Travelores.com | Made for travelers</p>
+  </footer>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(function(s) { s.classList.remove('active'); });
+      var section = document.getElementById(id);
+      if (section) {
+        section.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // Login/Registration Toggle
+    function toggleRegister() {
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const loginTitle = document.getElementById('loginTitle');
+      const loginToggle = document.getElementById('loginToggle');
+      const loginMessage = document.getElementById('loginMessage');
+      
+      if (registerForm.style.display === 'none') {
+        // Switch to registration
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        loginTitle.textContent = 'Create Account';
+        loginToggle.innerHTML = 'Already have an account? <a href="#" onclick="toggleRegister(); return false;" style="color: #a50505; cursor: pointer;">Login</a>';
+        loginMessage.textContent = '';
+      } else {
+        // Switch to login
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+        loginTitle.textContent = 'Login';
+        loginToggle.innerHTML = 'Don\'t have an account? <a href="#" onclick="toggleRegister(); return false;" style="color: #a50505; cursor: pointer;">Sign Up</a>';
+        loginMessage.textContent = '';
+      }
+    }
+
+   // ===============================================
+// CORRECTED JAVASCRIPT FUNCTIONS START HERE
+// ===============================================
+
+// Handle Registration
+async function handleRegister(event) {
+  event.preventDefault();
+  const messageDiv = document.getElementById('loginMessage');
+  messageDiv.textContent = '';
+  messageDiv.style.color = '#a50505'; // Reset to error color
+  
+  const name = document.getElementById('regName').value;
+  const email = document.getElementById('regEmail').value;
+  const phone = document.getElementById('regPhone').value;
+  const password = document.getElementById('regPassword').value;
+  const confirmPassword = document.getElementById('regConfirmPassword').value;
+  
+  if (password !== confirmPassword) {
+    messageDiv.textContent = 'Passwords do not match!';
+    return;
+  }
+  
+  try {
+    const response = await fetch('http://localhost:3000/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Note: Your Node.js database setup uses {username, email, password}
+      // Your HTML form has {name, email, phone, password}
+      // We will send the data your HTML provides, assuming your Node.js INSERT query handles 'name' as 'username'.
+      // If the Node.js server expects 'username', you should change 'name' to 'username' here.
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        phone: phone,
+        password: password
+      })
+    });
+    
+    const data = await response.json();
+    
+    // ⚠️ CRITICAL FIX: Check response.ok for success (Status 201)
+    if (response.ok) { 
+      messageDiv.style.color = '#28a745'; // Green for success
+      messageDiv.textContent = data.message || 'Registration successful! Please login.';
+      // Switch to login form automatically
+      setTimeout(() => {
+        toggleRegister();
+      }, 1500);
+    } else {
+      // Handle server-side errors (e.g., 'Email or Username already in use.')
+      messageDiv.textContent = data.message || 'Registration failed. Please check server logs.';
+    }
+  } catch (error) {
+    messageDiv.textContent = 'Error: Could not connect to server.';
+    console.error('Registration error:', error);
+  }
+}
+
+// Handle Login
+async function handleLogin(event) {
+  event.preventDefault();
+  const messageDiv = document.getElementById('loginMessage');
+  messageDiv.textContent = '';
+  messageDiv.style.color = '#a50505'; // Reset to error color
+  
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
+  try {
+    const response = await fetch('http://localhost:3000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
+    
+    const data = await response.json();
+    
+    // ⚠️ CRITICAL FIX: Check response.ok for success (Status 200)
+    if (response.ok) { 
+      messageDiv.style.color = '#28a745'; // Green for success
+      messageDiv.textContent = data.message || 'Login successful!';
+      
+      // ⚠️ CRITICAL FIX: Store the token and user_id directly from the response
+      if (data.token) {
+        localStorage.setItem('jwt_token', data.token);
+        localStorage.setItem('user_id', data.user_id); // Store user_id for client-side use
+      }
+      
+      setTimeout(() => {
+        showSection('itinerary');
+      }, 1000);
+    } else {
+      // Handle server-side login failures (e.g., 'Invalid credentials')
+      messageDiv.textContent = data.message || 'Invalid email or password.';
+    }
+  } catch (error) {
+    messageDiv.textContent = 'Error: Could not connect to server.';
+    console.error('Login error:', error);
+  }
+}
+
+// ===============================================
+// NOTE: The rest of your script (toggleRegister, etc.) 
+// remains unchanged and is placed after the corrected functions.
+// ===============================================
+
+    // Itinerary data and rendering
+    const countries = [
+      {
+        name: "France 🇫🇷",
+        image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80",
+        description: "From the Eiffel Tower to the glamorous French Riviera",
+        days: [
+          { day: 1, title: "Arrive in Paris & Eiffel Tower", activities: [
+            { time: "10:00 AM", title: "Check into Hotel", desc: "Settle into your hotel in central Paris" },
+            { time: "12:00 PM", title: "Lunch near Eiffel Tower", desc: "Casual French bistro lunch" },
+            { time: "2:00 PM", title: "Eiffel Tower Visit", desc: "Ascend to the top for panoramic views" },
+            { time: "7:00 PM", title: "Seine River Cruise", desc: "Evening boat tour with dinner and city lights" }
+          ]},
+          { day: 2, title: "Masterpieces & Marais Charm", activities: [
+            { time: "9:00 AM", title: "Louvre Museum", desc: "Focus on key wings: Mona Lisa, Venus de Milo" },
+            { time: "12:30 PM", title: "Lunch & Tuileries Garden", desc: "Picnic or café stop in the beautiful gardens" },
+            { time: "3:00 PM", title: "Notre Dame & Île de la Cité", desc: "View the exterior restoration and explore the island" },
+            { time: "5:00 PM", title: "Explore Le Marais", desc: "Wander through historic streets, Place des Vosges" },
+            { time: "8:00 PM", title: "Dinner in Le Marais", desc: "Enjoy trendy dining in this vibrant area" }
+          ]},
+          { day: 3, title: "Versailles & Montmartre", activities: [
+            { time: "8:00 AM", title: "Train to Versailles", desc: "Take RER C train from Paris" },
+            { time: "9:30 AM", title: "Palace of Versailles", desc: "Tour the Hall of Mirrors and Royal Apartments" },
+            { time: "1:00 PM", title: "Gardens & Grand Canal", desc: "Explore the vast grounds, perhaps rent a rowboat" },
+            { time: "5:00 PM", title: "Return to Paris & Montmartre", desc: "Head to the hilltop artists' quarter" },
+            { time: "7:00 PM", title: "Sacré-Cœur & Dinner", desc: "Visit the basilica and enjoy dinner with a view" }
+          ]}
+        ]
+      },
+      {
+        name: "Japan 🇯🇵",
+        image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80",
+        description: "Ancient temples, modern cities, and cherry blossoms",
+        days: [
+          { day: 1, title: "Tokyo Arrival & Shibuya Buzz", activities: [
+            { time: "2:00 PM", title: "Hotel Check-in Shibuya/Shinjuku", desc: "Modern neighborhood with iconic crossing" },
+            { time: "4:00 PM", title: "Shibuya Crossing & Shopping", desc: "Experience the world's busiest intersection" },
+            { time: "6:00 PM", title: "Dinner at Izakaya", desc: "Traditional Japanese pub-style dining" },
+            { time: "8:00 PM", title: "Shinjuku Night Walk", desc: "Neon lights and Golden Gai exploration" }
+          ]},
+          { day: 2, title: "Temples & Tech", activities: [
+            { time: "8:00 AM", title: "Tsukiji Outer Market", desc: "Fresh sushi breakfast and market exploration" },
+            { time: "10:00 AM", title: "Senso-ji Temple", desc: "Tokyo's oldest temple in Asakusa" },
+            { time: "1:00 PM", title: "Ueno Park & Museums", desc: "Relax or visit one of the many museums" },
+            { time: "5:00 PM", title: "Akihabara Electric Town", desc: "Anime, gaming, and tech exploration" }
+          ]},
+          { day: 3, title: "Bullet Train to Kyoto & Torii Gates", activities: [
+            { time: "7:00 AM", title: "Shinkansen to Kyoto", desc: "Bullet train experience (approx. 2.5 hours)" },
+            { time: "10:00 AM", title: "Fushimi Inari Shrine", desc: "Hike through thousands of red torii gates" },
+            { time: "1:00 PM", title: "Nishiki Market", desc: "Kyoto's Kitchen for lunch and local snacks" },
+            { time: "4:00 PM", title: "Gion District Walk", desc: "Search for Geiko (Geisha) in the historic area" }
+          ]}
+        ]
+      },
+      {
+        name: "India 🇮🇳",
+        image: "https://images.unsplash.com/photo-1524492412937-b28074a866d3?w=800&q=80",
+        description: "The historical and cultural marvels of Delhi, Agra, and Jaipur",
+        days: [
+          { day: 1, title: "Delhi Arrival & Old City", activities: [
+            { time: "10:00 AM", title: "Arrive at Indira Gandhi International Airport (DEL)", desc: "Transfer to your hotel and check-in" },
+            { time: "2:00 PM", title: "Red Fort (Exterior)", desc: "View the Mughal masterpiece" },
+            { time: "4:00 PM", title: "Jama Masjid & Chandni Chowk", desc: "Explore the large mosque and bustling old market by rickshaw" },
+            { time: "7:00 PM", title: "Dinner at a local restaurant", desc: "Try authentic North Indian cuisine" }
+          ]}
+        ]
+      },
+      {
+        name: "USA 🇺🇸",
+        image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&q=80",
+        description: "The city that never sleeps and the nation's capital",
+        days: [
+          { day: 1, title: "NYC: Manhattan Highlights", activities: [
+            { time: "9:00 AM", title: "Central Park Walk", desc: "Bethesda Fountain and Bow Bridge" },
+            { time: "11:00 AM", title: "Metropolitan Museum of Art", desc: "World-class art collection" },
+            { time: "2:00 PM", title: "5th Avenue Shopping", desc: "From Saks to Tiffany's" },
+            { time: "6:00 PM", title: "Times Square", desc: "Neon lights and Broadway atmosphere" },
+            { time: "8:00 PM", title: "Broadway Show", desc: "Catch a world-famous musical" }
+          ]}
+        ]
+      },
+      {
+        name: "Italy 🇮🇹",
+        image: "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=800",
+        description: "Rome's ancient wonders, Florence's art, and Venetian canals",
+        days: [
+          { day: 1, title: "Rome: Ancient Wonders", activities: [
+            { time: "8:00 AM", title: "Colosseum Tour", desc: "Early entry to avoid crowds" },
+            { time: "11:00 AM", title: "Roman Forum & Palatine Hill", desc: "Walk through ancient Roman civilization" },
+            { time: "2:00 PM", title: "Lunch in Trastevere", desc: "Authentic Roman trattoria" },
+            { time: "4:00 PM", title: "Pantheon", desc: "Marvel at ancient engineering" },
+            { time: "6:00 PM", title: "Trevi Fountain", desc: "Toss a coin and make a wish" }
+          ]}
+        ]
+      },
+      {
+        name: "Thailand 🇹🇭",
+        image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800",
+        description: "Temples, street food, and tropical islands",
+        days: [
+          { day: 1, title: "Bangkok: Temples & River", activities: [
+            { time: "8:00 AM", title: "Grand Palace & Wat Phra Kaew", desc: "Magnificent complex with Emerald Buddha" },
+            { time: "11:00 AM", title: "Wat Pho Reclining Buddha", desc: "Massive golden Buddha statue" },
+            { time: "1:00 PM", title: "Lunch near the river", desc: "Traditional Thai lunch" },
+            { time: "3:00 PM", title: "Wat Arun", desc: "Temple of Dawn across the river (take the ferry)" },
+            { time: "6:00 PM", title: "Khao San Road", desc: "Bustling backpacker street with food stalls" }
+          ]}
+        ]
+      },
+      {
+        name: "Greece 🇬🇷",
+        image: "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=800",
+        description: "Athens history, Santorini sunsets, and Mykonos nightlife",
+        days: [
+          { day: 1, title: "Athens: Acropolis & Plaka", activities: [
+            { time: "8:00 AM", title: "Acropolis & Parthenon", desc: "Ancient citadel overlooking Athens (visit early)" },
+            { time: "11:00 AM", title: "Acropolis Museum", desc: "Stunning modern museum with ancient artifacts" },
+            { time: "2:00 PM", title: "Lunch in Plaka District", desc: "Lunch in historic neighborhood and souvenir shopping" },
+            { time: "5:00 PM", title: "Monastiraki Square", desc: "Flea market and street performers" }
+          ]}
+        ]
+      },
+      {
+        name: "Australia 🇦🇺",
+        image: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=800",
+        description: "Sydney Opera House, stunning harbors, and the Great Barrier Reef",
+        days: [
+          { day: 1, title: "Sydney: Icons & Harbor", activities: [
+            { time: "9:00 AM", title: "Sydney Opera House Tour", desc: "Guided tour of the architectural masterpiece" },
+            { time: "11:00 AM", title: "Harbor Bridge Walk", desc: "BridgeClimb (optional) or walk the pedestrian path" },
+            { time: "2:00 PM", title: "The Rocks Historic District", desc: "Oldest area with markets and pubs" },
+            { time: "5:00 PM", title: "Circular Quay", desc: "Waterfront dining and sunset views" }
+          ]}
+        ]
+      }
+    ];
+
+    function renderCountries() {
+      const grid = document.getElementById('countriesGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      countries.forEach((country, index) => {
+        const card = document.createElement('div');
+        card.className = 'country-card';
+        card.onclick = () => openModal(index);
+
+        const fallbackImage = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800';
+
+        card.innerHTML = `
+          <img src="${country.image}" alt="${country.name}" onerror="this.src='${fallbackImage}'">
+          <div class="country-card-content">
+            <h3>${country.name}</h3>
+            <p>${country.description}</p>
+            <div class="days-info">${country.days.length} Days Itinerary</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openModal(index) {
+      const country = countries[index];
+      const modal = document.getElementById('itineraryModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+
+      const fallbackImage = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800';
+
+      modalImage.src = country.image;
+      modalImage.onerror = () => { modalImage.src = fallbackImage; };
+      modalTitle.textContent = country.name;
+
+      let bodyHTML = '';
+      country.days.forEach(day => {
+        bodyHTML += `
+          <div class="day-section">
+            <h3>Day ${day.day}: ${day.title}</h3>
+        `;
+        day.activities.forEach(activity => {
+          bodyHTML += `
+            <div class="activity">
+              <span class="activity-time">${activity.time}</span>
+              <div class="activity-title">${activity.title}</div>
+              <div class="activity-desc">${activity.desc}</div>
+            </div>
+          `;
+        });
+        bodyHTML += '</div>';
+      });
+
+      modalBody.innerHTML = bodyHTML;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('itineraryModal');
+      if (modal) modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('itineraryModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Render when itinerary section is shown
+    const originalShowSection = showSection;
+    showSection = function(id) {
+      originalShowSection(id);
+      if (id === 'itinerary') {
+        renderCountries();
+      }
+    }
+
+    function applyHashSection() {
+      var hash = location.hash.replace(/^#/, '');
+      if (!hash) return;
+      var el = document.getElementById(hash);
+      if (el && el.tagName === 'SECTION') {
+        showSection(hash);
+      }
+    }
+    applyHashSection();
+    window.addEventListener('hashchange', applyHashSection);
+  </script>
+
+</body>
+</html>
+

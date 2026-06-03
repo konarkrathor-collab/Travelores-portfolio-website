@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travelores.com - Explore the World</title>
+  <style>
+    body { font-family: 'Poppins', Arial, sans-serif; margin: 0; padding: 0; background: #fdfdfd; color: #333; text-align: center; }
+    nav { background: #0f0f0ffd; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+    .nav-left { display: flex; align-items: center; }
+    .nav-brand { display: flex; align-items: center; text-decoration: none; color: inherit; }
+    .nav-left img { width: 70px; height: 70px; margin-right: 10px; border-radius: 50%; }
+    .nav-left h1 { color: white; margin: 0; font-size: 22px; }
+    .nav-right ul { display: flex; list-style: none; margin: 0; padding: 0; }
+    .nav-right li { margin-left: 20px; }
+    .nav-right a { color: white; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+    .nav-right a:hover { color: #a50505; }
+    .hero { background: url('explore.jpg') no-repeat center center/cover; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.7); }
+    .hero h2 { font-size: 50px; margin: 0 0 20px; }
+    .hero p { font-size: 22px; max-width: 700px; margin-bottom: 30px; }
+    .hero .butt { background: #330404; padding: 14px 28px; font-size: 18px; color: white; text-decoration: none; border-radius: 8px; transition: 0.3s; }
+    .hero .butt:hover { background: #a50505; }
+    .highlights { display: flex; justify-content: center; gap: 30px; margin: 50px auto; flex-wrap: wrap; max-width: 1000px; }
+    .highlight-box { background: rgb(21, 20, 20); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 280px; transition: transform 0.3s ease; }
+    .highlight-box:hover { transform: translateY(-10px); }
+    .highlight-box h3 { margin: 15px 0 10px; color: #ffffff; }
+    .highlight-box p { font-size: 15px; color: #ece2e2; }
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fdfdfd;
+      color: #333;
+      text-align: center;
+    }
+
+    /* Navbar */
+    nav {
+      background: #0f0f0ffd; 
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+    .nav-left img {
+      width: 70px;
+      height: 70px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+    .nav-left h1 {
+      color: white;
+      margin: 0;
+      font-size: 22px;
+    }
+    .nav-right ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-right li {
+      margin-left: 20px;
+    }
+    .nav-right a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+    .nav-right a:hover {
+      color: #a50505;
+    }
+
+    /* Sections */
+    section {
+      display: none;
+      padding: 40px 20px;
+    }
+    section.active {
+      display: block;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: url('explore.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+    .hero h2 {
+      font-size: 50px;
+      margin: 0 0 20px;
+    }
+    .hero p {
+      font-size: 22px;
+      max-width: 700px;
+      margin-bottom: 30px;
+    }
+    .hero .butt {
+      background: #330404;
+      padding: 14px 28px;
+      font-size: 18px;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .hero .butt:hover {
+      background: #a50505;
+    }
+
+    /* Highlights */
+    .highlights {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 50px auto;
+      flex-wrap: wrap;
+      max-width: 1000px;
+    }
+    .highlight-box {
+      background: rgb(21, 20, 20);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 280px;
+      transition: transform 0.3s ease;
+    }
+    .highlight-box:hover {
+      transform: translateY(-10px);
+    }
+    .highlight-box h3 {
+      margin: 15px 0 10px;
+      color: #ffffff;
+    }
+    .highlight-box p {
+      font-size: 15px;
+      color: #ece2e2;
+    }
+
+    /* About Us */
+    .about-us {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .about-us h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #c0392b;
+    }
+    .about-us p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #444;
+    }
+    
+    /* Login */
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      width: 320px;
+      margin: auto;
+      text-align: center;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: #c0392b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-box button:hover {
+      background: #a50505;
+    }
+
+    /* Itinerary */
+    .itinerary-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .itinerary-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .itinerary-card h3 {
+      margin-top: 0;
+      color: #333;
+    }
+    .itinerary-card p {
+      color: #555;
+      line-height: 1.6;
+    }
+    footer { background: #151515fd; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-left">
+      <a href="WEBSITE.HTML#home" class="nav-brand">
+        <img src="travelores.png" alt="Travelores Logo">
+        <h1>Travelores.com</h1>
+      </a>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="WEBSITE.HTML#home">Home</a></li>
+        <li><a href="../destination.html">Destinations</a></li>
+        <li><a href="WEBSITE.HTML#login">Login</a></li>
+        <li><a href="../travelores-itinerary.html">Itinerary</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Home -->
+  <section id="home" class="active">
+    <div class="hero">
+      <h2>Explore The World With Us</h2>
+      <p>Your ultimate guide to breathtaking destinations, travel tips, and unforgettable experiences.</p>
+      <a href="../destination.html" class="butt">Start Exploring</a>
+    </div>
+    <section class="highlights">
+      <div class="highlight-box">
+        <h3>Destinations</h3>
+        <p>Discover detailed guides to top cities and hidden gems across the world.</p>
+      </div>
+      <div class="highlight-box">
+        <h3>Travel Tips</h3>
+        <p>Save money, travel smarter, and experience more with our expert advice.</p>
+      </div>
+      <div class="highlight-box">
+        <h3>🍴 Culture & Food</h3>
+        <p>Experience authentic cuisines and learn about diverse traditions.</p>
+      </div>
+    </section>
+  </section>
+
+  <!-- Destinations (placeholder section that links to full page) -->
+  <section id="destinations">
+    <h2>Top Destinations</h2>
+    <p>View our curated list of destinations.</p>
+    <p><a href="../destination.html" class="butt" style="display:inline-block;">Open Destinations Page</a></p>
+  </section>
+
+  <!-- Login -->
+  <section id="login">
+    <div class="login-box">
+      <h2>Login</h2>
+      <form onsubmit="event.preventDefault(); alert('Demo only'); showSection('itinerary');">
+        <input type="text" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Itinerary -->
+  <section id="itinerary">
+    <h2>Your Travel Itineraries</h2>
+    <div class="itinerary-container">
+      <div class="itinerary-card">
+        <h3>Sample Trip</h3>
+        <p>Day 1: Arrival<br>Day 2: City Tour<br>Day 3: Free Day</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="about-us">
+      <h2>About Us</h2>
+      <p>Welcome to <strong>Travelores</strong>, your go-to travel companion for tips and guides.</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="about-us">
+      <h2>Contact</h2>
+      <p>Need help? Visit the full <a href="../contact.html">Contact page</a>.</p>
+    </div>
+  </section>
+
+  
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Travelores.com | Made for travelers</p>
+  </footer>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(function(s) { s.classList.remove('active'); });
+      var section = document.getElementById(id);
+      if (section) {
+        section.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+    function applyHashSection() {
+      var hash = location.hash.replace(/^#/, '');
+      if (!hash) return;
+      var el = document.getElementById(hash);
+      if (el && el.tagName === 'SECTION') {
+        showSection(hash);
+      }
+    }
+    applyHashSection();
+    window.addEventListener('hashchange', applyHashSection);
+  </script>
+
+</body>
+</html>
+

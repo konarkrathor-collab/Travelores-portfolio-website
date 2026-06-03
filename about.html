@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travelores.com - About Us</title>
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #fff; /* Changed text color to white for better contrast */
+      text-align: center;
+      background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative; /* Needed for the pseudo-element */
+    }
+
+    /* Overlay for text readability */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark overlay */
+      z-index: -1; /* Puts the overlay behind the content */
+    }
+
+    nav { background: #0f0f0ffd; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+    .nav-left { display: flex; align-items: center; }
+    .nav-brand { display: flex; align-items: center; text-decoration: none; color: inherit; }
+    .nav-left img { width: 70px; height: 70px; margin-right: 10px; border-radius: 50%; }
+    .nav-left h1 { color: white; margin: 0; font-size: 22px; }
+    .nav-right ul { display: flex; list-style: none; margin: 0; padding: 0; }
+    .nav-right li { margin-left: 20px; }
+    .nav-right a { color: white; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+    .nav-right a:hover { color: #a50505; }
+
+    .about-header { max-width: 900px; margin: 60px auto 40px; padding: 20px; text-align: center; color: white; /* Changed text color */ }
+    .about-header h2 { font-size: 36px; color: #f0e9d5; margin-bottom: 20px; }
+    .about-header p { font-size: 18px; line-height: 1.6; color: #fff; /* Changed text color */ }
+
+    /* Fun cards */
+    .cards { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; max-width: 1000px; margin: 40px auto; }
+    .card { background: rgb(21, 20, 20); color: white; border-radius: 12px; padding: 25px 20px; width: 280px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s, background 0.3s; cursor: pointer; }
+    .card:hover { transform: translateY(-10px); background: #3a3836; }
+    .card h3 { font-size: 24px; margin-bottom: 15px; }
+    .card p { font-size: 15px; color: #ece2e2; }
+
+    footer { background: #151515fd; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-left">
+      <a href="WEBSITE.HTML#home" class="nav-brand">
+        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=200&h=200&fit=crop&q=80" alt="Travelores Logo">
+        <h1>Travelores.com</h1>
+      </a>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="WEBSITE.HTML#home">Home</a></li>
+        <li><a href="destination.html">Destinations</a></li>
+        <li><a href="WEBSITE.HTML#login">Login</a></li>
+        <li><a href="travelores-itinerary.html">Itinerary</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="about-header">
+    <h2>About Travelores 🌍✈️</h2>
+    <p>Welcome to <strong>Travelores</strong>! We're passionate explorers who love sharing travel tips, hidden gems, and unforgettable experiences. Whether it's iconic landmarks or secret escapes, we guide fellow travelers to make every journey amazing.</p>
+  </section>
+
+  <section class="cards">
+    <div class="card">
+      <h3>🎯 Our Mission</h3>
+      <p>To inspire travelers worldwide, providing trusted guides, tips, and experiences that turn every trip into a memory.</p>
+    </div>
+    <div class="card">
+      <h3>👀 Our Vision</h3>
+      <p>To be the ultimate travel companion for explorers everywhere, making travel planning fun, easy, and unforgettable.</p>
+    </div>
+    <div class="card">
+      <h3>🤝 Our Team</h3>
+      <p>A bunch of passionate travelers and tech enthusiasts, working together to make your journeys smoother, safer, and more exciting.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Travelores.com | Made for travelers</p>
+  </footer>
+
+</body>
+</html>
